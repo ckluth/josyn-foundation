@@ -8,10 +8,7 @@ namespace JOSYN.Foundation.ResultPattern;
 #pragma warning restore IDE0130
 
 
-/// <summary>
-/// Represents the result of a void operation. Either successful or carrying an error message,
-/// an optional exception, and a propagation chain.
-/// </summary>
+/// <inheritdoc/>
 public sealed record Result : IResult<Result>
 {
     /// <inheritdoc />

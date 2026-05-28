@@ -11,9 +11,10 @@ namespace JOSYN.Foundation.PropertyBag;
 /// Supports both sectioned INI (<c>[SectionName]</c> header followed by <c>Key=Value</c> lines)
 /// and section-less INI (plain <c>Key=Value</c> lines without a section header).
 /// <para>
-/// Values are stored verbatim — no trimming is applied to the right-hand side of the <c>=</c>.
-/// A manually crafted INI entry such as <c>Key= value</c> captures the leading space as part of the
-/// value. The caller is responsible for the exact content on both sides of the <c>=</c>.
+/// Both keys and values are trimmed on both sides — leading and trailing whitespace around
+/// the key and the value of a <c>Key=Value</c> line is not significant. <c>Key = value</c>
+/// and <c>Key=value</c> are equivalent. Intentional whitespace in values must be handled
+/// at the application level.
 /// </para>
 /// <para>
 /// Lines starting with <c>;</c> and blank lines are treated as comments or whitespace

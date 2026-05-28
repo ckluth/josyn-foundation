@@ -6,10 +6,7 @@ using System.Runtime.CompilerServices;
 namespace JOSYN.Foundation.ResultPattern;
 #pragma warning restore IDE0130
 
-/// <summary>
-/// Represents the result of an operation that returns <typeparamref name="TValue"/> on success.
-/// Either successful with a value, or carrying an error message, an optional exception, and a propagation chain.
-/// </summary>
+/// <inheritdoc/>
 public sealed record Result<TValue> : IResult<Result<TValue>, TValue>
 {
     /// <inheritdoc />

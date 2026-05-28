@@ -6,7 +6,9 @@ namespace JOSYN.Foundation.ResultPattern;
 #pragma warning restore IDE0130
 
 /// <summary>
-/// Contract for a typed result. Implemented by <see cref="Result{TValue}"/>.
+/// Represents the result of an operation that returns <typeparamref name="TValue"/> on success.
+/// Either successful with a value, or carrying an error message, an optional exception,
+/// and a propagation chain.
 /// </summary>
 public interface IResult<TSelf, TValue> where TSelf : IResult<TSelf, TValue>
 {

@@ -3,9 +3,8 @@ using JOSYN.Foundation.ResultPattern;
 namespace JOSYN.Foundation.JIP;
 
 /// <summary>
-/// Contract definition for the JIP convention layer.
-/// Separates the wire format (<see cref="Request"/>, <see cref="Response"/>) from the
-/// implementation layer (<see cref="Result{TValue}"/> with <c>string?</c>).
+/// Convention layer between the wire format (<see cref="Request"/>, <see cref="Response"/>)
+/// and the application layer (<see cref="Result{TValue}"/> with <c>string?</c>).
 /// </summary>
 public interface IJipProtocol
 {

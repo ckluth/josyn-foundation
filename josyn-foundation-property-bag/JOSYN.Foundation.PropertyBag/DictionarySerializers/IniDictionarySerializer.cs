@@ -16,7 +16,7 @@ public static class IniDictionarySerializer
             if (IsSectionless(data))
             {
                 foreach (var kvp in data[string.Empty])
-                    writer.WriteLine($"{kvp.Key.Trim()}={kvp.Value}");
+                    writer.WriteLine($"{kvp.Key.Trim()}={kvp.Value.Trim()}");
             }
             else
             {
@@ -24,7 +24,7 @@ public static class IniDictionarySerializer
                 {
                     writer.WriteLine($"[{section.Key.Trim()}]");
                     foreach (var kvp in section.Value)
-                        writer.WriteLine($"{kvp.Key.Trim()}={kvp.Value}");
+                        writer.WriteLine($"{kvp.Key.Trim()}={kvp.Value.Trim()}");
                     writer.WriteLine();
                 }
             }
@@ -87,7 +87,7 @@ public static class IniDictionarySerializer
                     
                     
                     var key = keyValue[0].Trim();
-                    var value = keyValue[1];
+                    var value = keyValue[1].Trim();
 
                     if (data[currentSection].ContainsKey(key))
                     {

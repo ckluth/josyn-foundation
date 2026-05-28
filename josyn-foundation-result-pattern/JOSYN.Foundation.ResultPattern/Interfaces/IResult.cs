@@ -6,7 +6,8 @@ namespace JOSYN.Foundation.ResultPattern;
 #pragma warning restore IDE0130
 
 /// <summary>
-/// Contract for a void result. Implemented by <see cref="Result"/>.
+/// Represents the result of a void operation. Either successful or carrying an error message,
+/// an optional exception, and a propagation chain.
 /// </summary>
 public interface IResult<out TSelf> where TSelf : IResult<TSelf>
 {

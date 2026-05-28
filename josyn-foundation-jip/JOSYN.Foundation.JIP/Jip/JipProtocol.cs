@@ -3,11 +3,7 @@ using JOSYN.Foundation.ResultPattern;
 
 namespace JOSYN.Foundation.JIP;
 
-/// <summary>
-/// Implementation of the JIP convention layer.
-/// Mediates between the wire format (<see cref="Request"/>, <see cref="Response"/>)
-/// and the implementation layer (<see cref="Result{TValue}"/> with <c>string?</c>).
-/// </summary>
+/// <inheritdoc cref="IJipProtocol"/>
 public sealed class JipProtocol : IJipProtocol
 {
     // -------------------------------------------------------------------------

@@ -129,13 +129,20 @@ Der Session-Key (Guid) wird beim Server-Start als CLI-Argument an den Client üb
 
 ---
 
-## Bekannte Einschränkungen (PoC)
+## Designentscheidung: Single-in-Flight
 
-Diese Punkte sind bewusst akzeptiert und dokumentiert — kein Handlungsbedarf im PoC:
+JIP ist bewusst auf **strikte 1:1-Kommunikation** ausgelegt. Jede Session wird durch eine
+on-the-fly erzeugte GUID (Session-Key) eindeutig identifiziert; Client und Server kommunizieren
+ausschließlich über dieses Pipe-Paar — sequenziell, ohne Multiplexing.
 
-| Einschränkung | Beschreibung |
-|---|---|
-| Single-in-Flight | Kein Multiplexing; Anfragen werden strikt sequenziell verarbeitet — kein Request-ID-Konzept |
+**Parallele Requests aus mehreren Threads sind nicht vorgesehen.** Das ist keine Einschränkung,
+sondern eine Systeminvariante: Der Client gehört zur JOSYN-Plattform, und dieses Verhalten wird
+auf Systemebene sichergestellt.
+
+Sollte dennoch ein zukünftiger Client parallele Requests absetzen und dabei Timing-Pech haben,
+erhält er im Worst Case ein definiertes **Busy** zurück — kein undefiniertes Verhalten, keine
+Seiteneffekte. Der Client ist für die Behandlung verantwortlich (Retry o. Ä.).
+Multiplexing wäre YAGNI und unverhältnismäßig aufwändig.
 
 ---
 

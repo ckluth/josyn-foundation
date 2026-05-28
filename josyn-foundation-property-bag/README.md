@@ -126,8 +126,9 @@ deserialisiert (`"green"` → `Color.Green`).
 ## INI-Format — Details
 
 - **Nur sectionlos** für Record-Serialisierung — kein `[Section]`-Header.
-- **Werte sind verbatim** — die rechte Seite von `=` wird exakt gespeichert und zurückgegeben.
-  Ein manuell erstellter Eintrag `Key= value` behält das führende Leerzeichen.
+- **Whitespace wird getrimmt** — Keys und Values werden beidseitig getrimmt. `Key = value`
+  und `Key=value` sind äquivalent. Intentioneller Whitespace in Werten muss auf Applikationsebene
+  gehandhabt werden (z. B. durch Quoting).
 - **Kommentare** — Zeilen mit `;` werden beim Deserialisieren ignoriert.
 - **Doppelte Schlüssel** erzeugen einen Deserialisierungsfehler.
 

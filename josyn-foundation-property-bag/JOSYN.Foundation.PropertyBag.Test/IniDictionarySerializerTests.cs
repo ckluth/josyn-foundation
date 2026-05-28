@@ -32,15 +32,15 @@ internal sealed class IniDictionarySerializerTests
     }
 
     [Test]
-    public void Serialize_ValueWithLeadingSpace_ValuePreservedExact()
+    public void Serialize_ValueWithLeadingSpace_ValueIsTrimmedInOutput()
     {
-        // INI values are whitespace-exact — no trimming applied (invariant from session 0002 fix).
         var data = new Dictionary<string, string> { ["Key"] = " SpacedValue" };
 
         var result = IniDictionarySerializer.Serialize(data);
 
         Assert.That(result.Succeeded, Is.True);
-        Assert.That(result.Value, Does.Contain("Key= SpacedValue"));
+        Assert.That(result.Value, Does.Contain("Key=SpacedValue"));
+        Assert.That(result.Value, Does.Not.Contain("Key= SpacedValue"));
     }
 
     // ── Serialize(Dictionary<string, Dictionary<string, string>>) ───────────
@@ -146,15 +146,15 @@ internal sealed class IniDictionarySerializerTests
     }
 
     [Test]
-    public void Deserialize_ValueWithLeadingSpace_SpacePreservedExact()
+    public void Deserialize_ValueWithLeadingSpace_SpaceIsTrimmed()
     {
-        // Deserialization does not trim values (invariant from session 0002 fix).
+        // Values are trimmed on both sides — leading/trailing whitespace is not significant.
         const string raw = "Key= leading space";
 
         var result = IniDictionarySerializer.DeserializeSingleSection(raw);
 
         Assert.That(result.Succeeded, Is.True);
-        Assert.That(result.Value!["Key"], Is.EqualTo(" leading space"));
+        Assert.That(result.Value!["Key"], Is.EqualTo("leading space"));
     }
 
     // ── DeserializeSingleSection ────────────────────────────────────────────
