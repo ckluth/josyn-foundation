@@ -1,24 +1,9 @@
-# josyn-foundation-jip
+# JOSYN.Foundation.JIP
 
-Dieses Sub-Repo enthält das NuGet-Paket **`JOSYN.Foundation.JIP`** —
-Named-Pipe-IPC-Transport (JOSYN Interprocess Protocol).
-
-→ [Paketdokumentation](JOSYN.Foundation.JIP/README.md)
-
----
-
-## Bauen, Testen, Packen
-
-```
-.local-build\build.cmd          # Release-Build
-.local-build\build.cmd Debug    # Debug-Build
-.local-build\test.cmd           # Alle Tests ausführen
-.local-build\pack.cmd           # NuGet-Paket erzeugen → ..\..\local-packages\
-```
-
----
-
-*JOSYN.Foundation.JIP — © 2026 HAEVG AG — MIT License*
+**JIP** (JOSYN Interprocess Protocol) ist der Transportschicht-Baustein von JOSYN.
+Er koppelt zwei Prozesse über Named Pipes vollständig voneinander entkoppelt: Der
+**JobHost** (Frontend) und der **JAPServer** (Backend) kommunizieren ausschließlich
+über dieses Protokoll — ohne gemeinsamen Speicher, ohne geteilte Abhängigkeiten.
 
 ---
 
@@ -187,28 +172,14 @@ Multiplexing wäre YAGNI und unverhältnismäßig aufwändig.
 
 ---
 
-## Für Maintainer
-
-### Voraussetzungen
-
-.NET 10 SDK, C# (latest)
-
-### Bauen, Testen, Packen
-
-Ausführen aus dem Repo-Wurzelverzeichnis (`JOSYN.Foundation.JIP\`):
-
-```
-.local-build\build.cmd          # Release-Build
-.local-build\build.cmd Debug    # Debug-Build
-.local-build\test.cmd           # Alle Tests ausführen
-.local-build\pack.cmd           # NuGet-Paket erzeugen → ..\..\local-packages\
-```
-
-### Abhängigkeiten
+## Abhängigkeiten
 
 - `JOSYN.Foundation.ResultPattern` (lokaler NuGet-Feed)
+- `.NET 10` / C# `latest`
 
-### Projektstruktur
+---
+
+## Projektstruktur
 
 ```
 JOSYN.Foundation.JIP\

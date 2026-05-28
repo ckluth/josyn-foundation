@@ -1,24 +1,13 @@
-# josyn-foundation-property-bag
+# JOSYN.Foundation.PropertyBag
 
-Dieses Sub-Repo enthält das NuGet-Paket **`JOSYN.Foundation.PropertyBag`** —
-Serialisierung flacher Records für JOSYN-IPC-Kanäle.
+Serialisiert und deserialisiert flache C#-`record`-Typen zu und aus String-Formaten —
+sectionloses INI oder JSON — mit vollständiger Integration des JOSYN-Result-Patterns.
+Designed für den Einsatz in JOSYN-IPC-Protokollen, wo strukturierte Daten als inspektierbarer
+String über Named-Pipes transportiert werden.
 
-→ [Paketdokumentation](JOSYN.Foundation.PropertyBag/README.md)
-
----
-
-## Bauen, Testen, Packen
-
-```
-.local-build\build.cmd          # Release-Build
-.local-build\build.cmd Debug    # Debug-Build
-.local-build\test.cmd           # Alle Tests ausführen
-.local-build\pack.cmd           # NuGet-Paket erzeugen → ..\..\local-packages\
-```
-
----
-
-*JOSYN.Foundation.PropertyBag — © 2026 HAEVG AG — MIT License*
+> **Scope.** Dies ist keine General-Purpose-Bibliothek. Ihre spezifische Rolle ist die
+> Serialisierung flacher Records und Methodenparameter für JOSYN's Named-Pipe-IPC-Kanal.
+> Für allgemeine JSON-Serialisierung: `System.Text.Json` direkt verwenden.
 
 ---
 
@@ -232,18 +221,7 @@ gegebenen Parametern ausgerichtet ist — bereit für `MethodBase.Invoke`.
 
 ---
 
-## Für Maintainer
-
-### Bauen, Testen, Packen
-
-```
-.local-build\build.cmd          # Release-Build
-.local-build\build.cmd Debug    # Debug-Build
-.local-build\test.cmd           # Alle Tests ausführen
-.local-build\pack.cmd           # NuGet-Paket → ..\..\local-packages\
-```
-
-### Projektstruktur
+## Projektstruktur
 
 ```
 JOSYN.Foundation.PropertyBag\
