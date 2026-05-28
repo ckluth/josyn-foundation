@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="JOSYN.Foundation.PropertyBag.Test/JOSYN.Foundation.PropertyBag.Test.csproj" />
+  <Project Path="JOSYN.Foundation.PropertyBag/JOSYN.Foundation.PropertyBag.csproj" />
+</Solution>

@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>Library</OutputType>
+		<TargetFramework>net10.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<LangVersion>latest</LangVersion>
+		<AssemblyName>JOSYN.Foundation.ResultPattern</AssemblyName>
+		<RootNamespace>JOSYN.Foundation.ResultPattern</RootNamespace>
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<Version>1.0.0-preview01</Version>
+		<Company>HAEVG</Company>
+		<Authors>HAEVG SWE</Authors>
+		<Description>Das zentralste JOSYN-Paket. Implementiert das Result-Pattern, das im gesamten System genutzt wird.</Description>
+		<PackageId>JOSYN.Foundation.ResultPattern</PackageId>
+		<RepositoryType>git</RepositoryType>
+		<PackageProjectUrl>https://github.com/ckluth/JOSYN</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/ckluth/JOSYN</RepositoryUrl>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<Copyright>Copyright © 2026 HAEVG AG</Copyright>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageIcon>icon.png</PackageIcon>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Include="..\README.md" Pack="true" PackagePath="\"/>
+		<None Include="..\icon.png" Pack="true" PackagePath="\"/>
+	</ItemGroup>
+</Project>

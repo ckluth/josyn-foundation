@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="JOSYN.Foundation.ResultPattern/JOSYN.Foundation.ResultPattern.csproj" />
+  <Project Path="JOSYN.Foundation.ResultPattern.Test/JOSYN.Foundation.ResultPattern.Test.csproj" />
+</Solution>

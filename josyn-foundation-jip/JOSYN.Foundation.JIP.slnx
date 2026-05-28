@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="JOSYN.Foundation.JIP.Demo.ClientExe/JOSYN.Foundation.JIP.Demo.ClientExe.csproj" Id="dea5611d-d740-437f-ad93-7a5dc5ae4299" />
+  <Project Path="JOSYN.Foundation.JIP.Demo.ServerExe/JOSYN.Foundation.JIP.Demo.ServerExe.csproj" Id="eccae8b2-38aa-44cb-a343-c2b33fe6c84c" />
+  <Project Path="JOSYN.Foundation.JIP.Demo.ServerExe.Test/JOSYN.Foundation.JIP.Demo.ServerExe.Test.csproj" />
+  <Project Path="JOSYN.Foundation.JIP.Test/JOSYN.Foundation.JIP.Test.csproj" />
+  <Project Path="JOSYN.Foundation.JIP/JOSYN.Foundation.JIP.csproj" />
+</Solution>
