@@ -207,7 +207,7 @@ JOSYN.Foundation.ResultPattern\
 │   ├── Error.cs                # Hilfstyp für idiomatische Fehlerrückgabe
 │   ├── ResultHelper.cs         # Interne Hilfsfunktionen
 │   └── ResultSuccess.cs        # Sentinel-Typ für Result.Success
-└── Interfaces\
+└── Contracts\
     ├── IResult.cs              # API-Vertrag void-Result
     ├── IResult.generic.cs      # API-Vertrag Result<T>
     └── IError.cs               # Gemeinsamer Failure-Vertrag
