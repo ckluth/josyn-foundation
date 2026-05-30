@@ -11,8 +11,8 @@ werden können.
 | Paket | Rolle | Abhängigkeiten |
 |---|---|---|
 | [`JOSYN.Foundation.ResultPattern`](josyn-foundation-result-pattern/README.md) | Errors-as-Values — das durchgängige Fehlerbehandlungsprinzip von JOSYN | — |
-| [`JOSYN.Foundation.PropertyBag`](josyn-foundation-property-bag/) | Serialisierung flacher Records für JOSYN-IPC-Kanäle (INI / JSON) | ResultPattern |
-| [`JOSYN.Foundation.JIP`](josyn-foundation-jip/) | Named-Pipe-IPC-Transport (JOSYN Interprocess Protocol) | ResultPattern |
+| [`JOSYN.Foundation.PropertyBag`](josyn-foundation-property-bag/README.md) | Serialisierung flacher Records für JOSYN-IPC-Kanäle (INI / JSON) | ResultPattern |
+| [`JOSYN.Foundation.JIP`](josyn-foundation-jip/README.md) | Named-Pipe-IPC-Transport (JOSYN Interprocess Protocol) | ResultPattern |
 
 ### Abhängigkeitskette
 
