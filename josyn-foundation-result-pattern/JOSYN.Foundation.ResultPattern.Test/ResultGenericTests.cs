@@ -430,12 +430,14 @@ public sealed class ResultGenericTests
     // ── ToResult<TOther> on a succeeded Result<T> ─────────────────────────────
 
     [Test]
-    public void ToResultGeneric_OnSucceeded_Throws()
+    public void ToResultGeneric_OnSucceeded_ReturnsFailed()
     {
         // ToResult<TOther>() is only valid on failed Results.
-        // Calling it on a succeeded Result throws InvalidOperationException.
+        // Calling it on a succeeded Result returns a failed Result<TOther>.
         Result<int> succeeded = 42;
-        Assert.That(() => succeeded.ToResult<string>(), Throws.InstanceOf<InvalidOperationException>());
+        var result = succeeded.ToResult<string>();
+        Assert.That(result.Succeeded, Is.False);
+        Assert.That(result.ErrorMessage, Does.Contain("succeeded"));
     }
 
     // ── Cross-type error conversion pattern ──────────────────────────────────

@@ -5,16 +5,16 @@ using System.Text;
 namespace JOSYN.Foundation.JIP;
 
 /// <inheritdoc cref="IPipesClient"/>
-public sealed class PipesClient : IPipesClient
+public static class PipesClient
 {
-    /// <inheritdoc /> 
+    /// <inheritdoc cref="IPipesClient.ConnectAsync"/>
     public static async Task<Result<ClientPipes>> ConnectAsync(Guid sessionKey)
     {
         var (requestPipeName, responsePipeName) = PipesProtocol.DerivePipeNamesFromSessionKey(sessionKey.ToString());
         return await ConnectAsync(requestPipeName, responsePipeName);
     }
 
-    /// <inheritdoc /> 
+    /// <inheritdoc cref="IPipesClient.SendRequestAsync(string, ClientPipes)"/>
     public static async Task<Result<string>> SendRequestAsync(string request, ClientPipes pipes)
     {
         var result = await SendRequestAsync(Encoding.UTF8.GetBytes(request), pipes);
@@ -22,7 +22,7 @@ public sealed class PipesClient : IPipesClient
         return Encoding.UTF8.GetString(result.Value);
     }
 
-    /// <inheritdoc /> 
+    /// <inheritdoc cref="IPipesClient.SendRequestAsync(byte[], ClientPipes)"/>
     public static async Task<Result<byte[]>> SendRequestAsync(byte[] requestBytes, ClientPipes pipes)
     {
         if (!pipes.TrySetBusy())
@@ -55,7 +55,7 @@ public sealed class PipesClient : IPipesClient
         finally { pipes.ClearBusy(); }
     }
 
-    /// <inheritdoc /> 
+    /// <inheritdoc cref="IPipesClient.DisconnectAsync"/>
     public static async Task<Result> DisconnectAsync(ClientPipes pipes, bool sendShutdownRequest = false)
     {
         try

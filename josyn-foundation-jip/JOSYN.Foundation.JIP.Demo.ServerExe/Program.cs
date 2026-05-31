@@ -109,11 +109,24 @@ internal class Program
     
     private static readonly JAPServer japServer = new();
 
-    private static readonly IJipDispatcher jipDispatcher = new JipDispatcher()
-        .RegisterAll<IJosynApplicationProtocol>(japServer)
-        .Register("PING",       Result<string?>.Success(null))
-        .Register("GET-CONFIG", Result<string?>.Success("{ \"version\": \"1.0\", \"mode\": \"demo\" }"))
-        .Register("ECHO",       (string? data) => Result<string?>.Success("ECHO " + data));
+    private static readonly IJipDispatcher jipDispatcher = CreateDispatcher();
+
+    private static IJipDispatcher CreateDispatcher()
+    {
+        var dispatcher = new JipDispatcher();
+        var r = dispatcher.RegisterAll<IJosynApplicationProtocol>(japServer);
+        if (!r.Succeeded)
+        {
+            Console.Error.WriteLine($"Dispatcher-Setup fehlgeschlagen: {r.ErrorMessage}");
+            Environment.Exit(1);
+            return dispatcher;
+        }
+        r.Value!
+            .Register("PING",       Result<string?>.Success(null))
+            .Register("GET-CONFIG", Result<string?>.Success("{ \"version\": \"1.0\", \"mode\": \"demo\" }"))
+            .Register("ECHO",       (string? data) => Result<string?>.Success("ECHO " + data));
+        return dispatcher;
+    }
 
     private static async Task<string> HandleRequest(string requestStr)
     {

@@ -7,19 +7,19 @@ namespace JOSYN.Foundation.PropertyBag;
 #pragma warning restore IDE0130
 
 /// <inheritdoc cref="IPropertyBag"/>
-public sealed class PropertyBag : IPropertyBag
+public static class PropertyBag
 {
     private static readonly DictionaryToStringSerializer DefaultDictionaryToStringSerializer = IniDictionarySerializer.Serialize;
 
     #region Serializer
 
-    /// <inheritdoc/>
+    /// <inheritdoc cref="IPropertyBag.Serialize{TRecord}(TRecord)"/>
     public static Result<string> Serialize<TRecord>(TRecord record) where TRecord : class
     {
         return Serialize(record, typeof(TRecord));
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc cref="IPropertyBag.Serialize(object, Type)"/>
     public static Result<string> Serialize(object record, Type recordType)
     {
         return Serialize(record, recordType, DefaultDictionaryToStringSerializer);

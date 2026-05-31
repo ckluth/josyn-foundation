@@ -20,11 +20,13 @@ public sealed class JipDispatcherExtensionsTests
             .Select(m => m.Name)
             .ToHashSet();
 
-        var dispatcher = new JipDispatcher().RegisterAll<IJosynApplicationProtocol>(new FakeJosynApplicationProtocol());
+        var result = new JipDispatcher().RegisterAll<IJosynApplicationProtocol>(new FakeJosynApplicationProtocol());
 
-        Assert.That(dispatcher.RegisteredKeys, Is.SupersetOf(expectedKeys),
+        Assert.That(result.Succeeded, Is.True,
+            "RegisterAll hat einen Fehler zurückgegeben: " + result.ErrorMessage);
+        Assert.That(result.Value!.RegisteredKeys, Is.SupersetOf(expectedKeys),
             "RegisterAll hat nicht alle Methoden von IJosynApplicationProtocol registriert. " +
-            "Fehlende Keys: " + string.Join(", ", expectedKeys.Except(dispatcher.RegisteredKeys)));
+            "Fehlende Keys: " + string.Join(", ", expectedKeys.Except(result.Value!.RegisteredKeys)));
     }
 
     private sealed class FakeJosynApplicationProtocol : IJosynApplicationProtocol

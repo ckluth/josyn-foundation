@@ -186,19 +186,22 @@ internal sealed class JipDispatcherTests
     {
         var dispatcher = new JipDispatcher();
 
-        var returned = dispatcher.RegisterAll<IEmptyProtocol>(new FakeEmptyProtocol());
+        var result = dispatcher.RegisterAll<IEmptyProtocol>(new FakeEmptyProtocol());
 
+        Assert.That(result.Succeeded, Is.True);
         Assert.That(dispatcher.RegisteredKeys, Is.Empty);
-        Assert.That(returned, Is.SameAs(dispatcher));
+        Assert.That(result.Value, Is.SameAs(dispatcher));
     }
 
     [Test]
-    public void RegisterAll_UnsupportedMethodSignature_ThrowsInvalidOperationException()
+    public void RegisterAll_UnsupportedMethodSignature_ReturnsFailed()
     {
         var dispatcher = new JipDispatcher();
 
-        Assert.Throws<InvalidOperationException>(
-            () => dispatcher.RegisterAll<IUnsupportedProtocol>(new FakeUnsupportedProtocol()));
+        var result = dispatcher.RegisterAll<IUnsupportedProtocol>(new FakeUnsupportedProtocol());
+
+        Assert.That(result.Succeeded, Is.False);
+        Assert.That(result.ErrorMessage, Does.Contain("nicht unterstützte Signatur"));
     }
 
     // ── Private helpers ───────────────────────────────────────────────────────

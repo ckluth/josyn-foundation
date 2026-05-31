@@ -306,11 +306,13 @@ public sealed class ResultTests
     // ── ToResult<T> on a succeeded Result ─────────────────────────────────────
 
     [Test]
-    public void ToResult_Generic_OnSucceeded_Throws()
+    public void ToResult_Generic_OnSucceeded_ReturnsFailed()
     {
         // ToResult<T>() is only valid on failed Results.
-        // Calling it on a succeeded Result throws InvalidOperationException.
+        // Calling it on a succeeded Result returns a failed Result<T>.
         var succeeded = Result.Success;
-        Assert.That(() => succeeded.ToResult<int>(), Throws.InstanceOf<InvalidOperationException>());
+        var result = succeeded.ToResult<int>();
+        Assert.That(result.Succeeded, Is.False);
+        Assert.That(result.ErrorMessage, Does.Contain("succeeded"));
     }
 }

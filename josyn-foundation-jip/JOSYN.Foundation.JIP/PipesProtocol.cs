@@ -3,15 +3,15 @@ using JOSYN.Foundation.ResultPattern;
 namespace JOSYN.Foundation.JIP;
 
 /// <inheritdoc cref="IPipesProtocol"/>
-public sealed class PipesProtocol: IPipesProtocol
+public static class PipesProtocol
 {
-    /// <inheritdoc/>
+    /// <inheritdoc cref="IPipesProtocol.CreateClientStartCLIArguments"/>
     public static string CreateClientStartCLIArguments(string sessionKey)
     {
         return $"{IPipesProtocol.MagicToken} {sessionKey}";
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc cref="IPipesProtocol.ParseSessionKeyCLIArguments"/>
     public static Guid ParseSessionKeyCLIArguments(string[] args)
     {
         if (args is not [IPipesProtocol.MagicToken, _])
@@ -20,7 +20,7 @@ public sealed class PipesProtocol: IPipesProtocol
         return Guid.TryParse(args[1], out var guid) ? guid : Guid.Empty;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc cref="IPipesProtocol.DerivePipeNamesFromSessionKey"/>
     public static (string requestPipeName, string responsePipeName) DerivePipeNamesFromSessionKey(string sessionKey)
     {
         var requestPipeName = $"req-pipe-{sessionKey}";

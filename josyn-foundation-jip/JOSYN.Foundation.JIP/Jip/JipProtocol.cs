@@ -4,13 +4,13 @@ using JOSYN.Foundation.ResultPattern;
 namespace JOSYN.Foundation.JIP;
 
 /// <inheritdoc cref="IJipProtocol"/>
-public sealed class JipProtocol : IJipProtocol
+public static class JipProtocol
 {
     // -------------------------------------------------------------------------
     // Parsing
     // -------------------------------------------------------------------------
 
-    /// <inheritdoc/>
+    /// <inheritdoc cref="IJipProtocol.ParseRequest"/>
     public static Result<Request> ParseRequest(string raw)
     {
         try
@@ -27,7 +27,7 @@ public sealed class JipProtocol : IJipProtocol
         }
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc cref="IJipProtocol.ParseResponse"/>
     public static Result<Response> ParseResponse(string raw)
     {
         try
@@ -48,7 +48,7 @@ public sealed class JipProtocol : IJipProtocol
     // Server-Seite: Result<string?> → Response
     // -------------------------------------------------------------------------
 
-    /// <inheritdoc/>
+    /// <inheritdoc cref="IJipProtocol.ToResponse"/>
     public static Response ToResponse(Result<string?> result)
     {
         if (result.Succeeded)
@@ -65,7 +65,7 @@ public sealed class JipProtocol : IJipProtocol
     // Client-Seite: Response → Result<string?>
     // -------------------------------------------------------------------------
 
-    /// <inheritdoc/>
+    /// <inheritdoc cref="IJipProtocol.ToResult"/>
     public static Result<string?> ToResult(Response response) =>
         response.Succeeded
             ? Result<string?>.Success(response.Data)

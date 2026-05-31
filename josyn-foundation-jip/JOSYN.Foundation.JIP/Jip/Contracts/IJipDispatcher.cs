@@ -58,13 +58,13 @@ public interface IJipDispatcher
     /// <item><c>Task&lt;Result&lt;string&gt;&gt; Method()</c></item>
     /// <item><c>Task&lt;Result&gt; Method(string data)</c></item>
     /// </list>
-    /// Throws <see cref="InvalidOperationException"/> during registration if an unsupported signature is encountered.
+    /// Returns a failed result if a method with an unsupported signature is encountered.
     /// </remarks>
     /// <typeparam name="TProtocol">
     /// The protocol interface type. Always specify the interface explicitly, not the concrete class,
     /// to avoid registering non-protocol members.
     /// </typeparam>
-    IJipDispatcher RegisterAll<TProtocol>(TProtocol impl) where TProtocol : class;
+    Result<IJipDispatcher> RegisterAll<TProtocol>(TProtocol impl) where TProtocol : class;
 
     /// <summary>
     /// Dispatches a raw JIP request string. Unknown <c>What</c> values are answered with

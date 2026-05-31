@@ -57,7 +57,7 @@ public sealed class JipDispatcher : IJipDispatcher
         => RegisterCore(key, _ => Task.FromResult(constantResult));
 
     /// <inheritdoc/>
-    public IJipDispatcher RegisterAll<TProtocol>(TProtocol impl) where TProtocol : class
+    public Result<IJipDispatcher> RegisterAll<TProtocol>(TProtocol impl) where TProtocol : class
     {
         foreach (var m in typeof(TProtocol).GetMethods())
         {
@@ -86,7 +86,7 @@ public sealed class JipDispatcher : IJipDispatcher
             }
             else
             {
-                throw new InvalidOperationException(
+                return Result<IJipDispatcher>.Fail(
                     $"Methode '{typeof(TProtocol).Name}.{key}' hat eine nicht unterstützte Signatur für RegisterAll. " +
                     $"Unterstützt: Task<Result<string>> Method() oder Task<Result> Method(string).");
             }

@@ -7,9 +7,9 @@ namespace JOSYN.Foundation.JIP;
 
 
 /// <inheritdoc cref="IPipesServer"/>
-public sealed class PipesServer : IPipesServer
+public static class PipesServer
 {
-    /// <inheritdoc/>
+    /// <inheritdoc cref="IPipesServer.RunAsync"/>
     public static async Task<Result> RunAsync(ServerStartArguments args, bool reConnect = false, Action? onReconnect = null)
     {
         if (args.ClientExePath != null && reConnect)
