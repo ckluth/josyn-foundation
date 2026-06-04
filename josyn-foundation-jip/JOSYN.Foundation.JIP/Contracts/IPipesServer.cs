@@ -23,7 +23,7 @@ public interface IPipesServer
     /// <param name="reConnect">
     /// If <see langword="true"/>, the server restarts automatically after a clean
     /// disconnect. Cannot be combined with
-    /// <see cref="ServerStartArguments.ClientExePath"/>.
+    /// <see cref="IServerStartArguments.ClientExePath"/>.
     /// </param>
     /// <param name="onReconnect">
     /// Optional callback invoked before each reconnect attempt —
@@ -33,5 +33,5 @@ public interface IPipesServer
     /// Successful when the server shut down cleanly;
     /// failure on configuration problems or unrecoverable transport errors.
     /// </returns>
-    static abstract Task<Result> RunAsync(ServerStartArguments args, bool reConnect = false, Action? onReconnect= null);
+    static abstract Task<Result> RunAsync(IServerStartArguments args, bool reConnect = false, Action? onReconnect= null);
 }

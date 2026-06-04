@@ -10,7 +10,7 @@ namespace JOSYN.Foundation.JIP;
 public static class PipesServer
 {
     /// <inheritdoc cref="IPipesServer.RunAsync"/>
-    public static async Task<Result> RunAsync(ServerStartArguments args, bool reConnect = false, Action? onReconnect = null)
+    public static async Task<Result> RunAsync(IServerStartArguments args, bool reConnect = false, Action? onReconnect = null)
     {
         if (args.ClientExePath != null && reConnect)
             return Result.Fail("Reconnect wird nicht bei Client-Exe-Aufruf unterstützt.");
@@ -41,7 +41,7 @@ public static class PipesServer
 
     #region private
 
-    private static async Task<Result<bool>> RunAsyncInternal(ServerStartArguments args)
+    private static async Task<Result<bool>> RunAsyncInternal(IServerStartArguments args)
     {
         if (!args.HasStringRequestHandler && args.HandleRawRequest == null)
             return Result<bool>.Fail("Kein Request-Handler konfiguriert. HandleStringRequest oder HandleRawRequest muss gesetzt sein.");

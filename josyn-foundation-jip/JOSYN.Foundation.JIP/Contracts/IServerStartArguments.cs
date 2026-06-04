@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace JOSYN.Foundation.JIP;
 
 /// <summary>
@@ -35,6 +37,8 @@ public interface IServerStartArguments
     /// <see langword="true"/> if <see cref="HandleStringRequest"/> is set;
     /// <see langword="false"/> if <see cref="HandleRawRequest"/> is used.
     /// </summary>
+    [MemberNotNullWhen(true,  nameof(HandleStringRequest))]
+    [MemberNotNullWhen(false, nameof(HandleRawRequest))]
     bool HasStringRequestHandler { get; }
 
     /// <summary>
