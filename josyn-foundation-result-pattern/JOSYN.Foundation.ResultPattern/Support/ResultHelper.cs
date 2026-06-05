@@ -24,7 +24,18 @@ internal static class ResultHelper
             : string.Join("\n", callers.Select(c => $"  at {c}"));
 
     // "Ausnahmefehler: " prefix is intentionally German — matches the project's runtime error message convention.
-    internal static string FormatExceptionMessage(Exception exception) => $"Ausnahmefehler: {exception.Message}";
+    // Inner exceptions are chained with " → " so the full cause is visible without needing exception.ToString().
+    internal static string FormatExceptionMessage(Exception exception)
+    {
+        var sb = new StringBuilder("Ausnahmefehler: ").Append(exception.Message);
+        var inner = exception.InnerException;
+        while (inner is not null)
+        {
+            sb.Append(" → ").Append(inner.Message);
+            inner = inner.InnerException;
+        }
+        return sb.ToString();
+    }
 
     // valueLabel: optional string representation of the result value, used by Result<TValue>.
     internal static string FormatResult(bool succeeded, string? errorMessage, IReadOnlyList<CallerInfo> callers, Exception? exception, string? valueLabel = null)
