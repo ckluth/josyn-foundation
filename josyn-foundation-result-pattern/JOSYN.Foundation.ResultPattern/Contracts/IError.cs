@@ -18,11 +18,6 @@ public interface IError<out TSelf> where TSelf : IError<TSelf>
     Exception? Exception { get; }
 
     /// <summary>
-    /// Enables <c>Error err = "Meldung";</c>.
-    /// </summary>
-    static abstract implicit operator TSelf(string error);
-
-    /// <summary>
     /// Enables <c>Error err = exception;</c>.
     /// </summary>
     static abstract implicit operator TSelf(Exception exception);

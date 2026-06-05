@@ -181,7 +181,7 @@ public static class PipesServer
             {
                 FileName = remoteExePath,
                 Arguments = PipesProtocol.CreateClientStartCLIArguments(sessionKey),
-                UseShellExecute = true,
+                UseShellExecute = false,
                 CreateNoWindow = false
             });
 

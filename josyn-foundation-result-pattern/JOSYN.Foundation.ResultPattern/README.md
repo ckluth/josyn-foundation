@@ -90,6 +90,20 @@ catch (Exception ex) { return ex; }
 return Result.Error("Nachricht");
 ```
 
+> **Ternary-Falle bei `Result<string>`:** Wenn `TValue = string` ist, löst C# den gemeinsamen
+> Typ beider Ternary-Zweige auf — **nicht** den Zieltyp der Methode. Den Erfolgs-Zweig daher
+> immer explizit mit `Result<string>.Success(value)` schreiben:
+>
+> ```csharp
+> // FALSCH — "INT" wird lautlos zu Error("INT"):
+> Result<string> GetValue(string key) =>
+>     dict.TryGetValue(key, out var v) ? v : Result.Error("not found");
+>
+> // RICHTIG:
+> Result<string> GetValue(string key) =>
+>     dict.TryGetValue(key, out var v) ? Result<string>.Success(v) : Result.Error("not found");
+> ```
+
 ### `Propagate()` — Callstack aufbauen
 
 Jeder Aufruf von `Propagate()` fügt den aktuellen Aufrufer zur Kette hinzu. Am Ende

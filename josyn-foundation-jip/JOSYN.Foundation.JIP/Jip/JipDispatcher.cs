@@ -3,6 +3,7 @@
 namespace JOSYN.Foundation.JIP;
 #pragma warning restore IDE0130
 
+using System.Reflection;
 using JOSYN.Foundation.ResultPattern;
 
 /// <inheritdoc cref="IJipDispatcher"/>
@@ -64,6 +65,7 @@ public sealed class JipDispatcher : IJipDispatcher
             var key = m.Name;
             var parameters = m.GetParameters();
 
+            // ReSharper disable once ConvertIfStatementToSwitchStatement
             if (parameters.Length == 0 && m.ReturnType == typeof(Task<Result<string>>))
             {
                 RegisterCore(key, async _ =>
@@ -84,11 +86,27 @@ public sealed class JipDispatcher : IJipDispatcher
                     return r.Succeeded ? Result<string?>.Success(null) : r.ToResult<string?>();
                 });
             }
+            else if (parameters.Length == 0
+                     && m.ReturnType.IsGenericType
+                     && m.ReturnType.GetGenericTypeDefinition() == typeof(Task<>)
+                     && m.ReturnType.GetGenericArguments()[0] is { IsGenericType: true } resultType
+                     && resultType.GetGenericTypeDefinition() == typeof(Result<>)
+                     && resultType.GetGenericArguments()[0].IsEnum)
+            {
+                var enumType = resultType.GetGenericArguments()[0];
+                
+                var wrap = typeof(JipDispatcher)
+                    .GetMethod(nameof(WrapEnumHandler), BindingFlags.NonPublic | BindingFlags.Static)!
+                    .MakeGenericMethod(enumType);
+                
+                var handler = (Func<string?, Task<Result<string?>>>)wrap.Invoke(null, [impl, m])!;
+                RegisterCore(key, handler);
+            }
             else
             {
                 return Result<IJipDispatcher>.Fail(
                     $"Methode '{typeof(TProtocol).Name}.{key}' hat eine nicht unterstützte Signatur für RegisterAll. " +
-                    $"Unterstützt: Task<Result<string>> Method() oder Task<Result> Method(string).");
+                    $"Unterstützt: Task<Result<string>> Method(), Task<Result<TEnum>> Method() (enum), oder Task<Result> Method(string).");
             }
         }
         return this;
@@ -96,6 +114,14 @@ public sealed class JipDispatcher : IJipDispatcher
 
     /// <inheritdoc/>
     public Task<string> Dispatch(string requestStr) => _builtDispatch(requestStr);
+
+    private static Func<string?, Task<Result<string?>>> WrapEnumHandler<TEnum>(object impl, MethodInfo m)
+        where TEnum : struct, Enum
+        => async _ =>
+        {
+            var r = await (Task<Result<TEnum>>)m.Invoke(impl, null)!;
+            return r.Succeeded ? Result<string?>.Success(r.Value.ToString()) : r.ToResult<string?>();
+        };
 
     private JipDispatcher RegisterCore(string key, Func<string?, Task<Result<string?>>> handler)
     {

@@ -10,8 +10,5 @@ namespace JOSYN.Foundation.ResultPattern;
 public readonly record struct Error(string ErrorMessage, Exception? Exception = null) : IError<Error>
 {
     /// <inheritdoc />
-    public static implicit operator Error(string error) => new(error);
-
-    /// <inheritdoc />
     public static implicit operator Error(Exception exception) => new(ResultHelper.FormatExceptionMessage(exception), exception);
 }

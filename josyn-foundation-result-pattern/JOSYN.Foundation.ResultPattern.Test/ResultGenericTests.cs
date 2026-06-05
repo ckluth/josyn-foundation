@@ -201,16 +201,16 @@ public sealed class ResultGenericTests
     // ── Error struct ────────────────────────────────────────────────────────
 
     [Test]
-    public void Error_ImplicitConversion_FromString_ErrorMessage_IsSet()
+    public void Error_Constructor_FromString_ErrorMessage_IsSet()
     {
-        Error error = "something went wrong";
+        Error error = new Error("something went wrong");
         Assert.That(error.ErrorMessage, Is.EqualTo("something went wrong"));
     }
 
     [Test]
-    public void Error_ImplicitConversion_FromString_Exception_IsNull()
+    public void Error_Constructor_FromString_Exception_IsNull()
     {
-        Error error = "something went wrong";
+        Error error = new Error("something went wrong");
         Assert.That(error.Exception, Is.Null);
     }
 
