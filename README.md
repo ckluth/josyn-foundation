@@ -52,8 +52,6 @@ Jedes Sub-Repo ist autark. Aus dem jeweiligen Verzeichnis:
 
 Reifer PoC — Milestone 1. Die Pakete sind intern produktionsreif;
 die `preview`-Kennzeichnung spiegelt den noch offenen Abnahme-Prozess wider.
-Bekannte PoC-Einschränkungen sind in den jeweiligen `POC-HACKS.md`-Dateien dokumentiert.
-
 ---
 
 *JOSYN Foundation — © 2026 HAEVG AG — MIT License*
