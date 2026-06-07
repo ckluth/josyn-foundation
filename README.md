@@ -1,20 +1,19 @@
 # josyn-foundation
 
-**josyn-foundation** enthält die drei Kern-Bausteine von **JOSYN** (*JobSystem Next*) —
-als eigenständige NuGet-Pakete, die unabhängig voneinander versioniert und eingesetzt
-werden können.
+**josyn-foundation** contains the three core building blocks of **JOSYN** (*JobSystem Next*) —
+as independent NuGet packages that can be versioned and deployed separately.
 
 ---
 
-## Bausteine
+## Building blocks
 
-| Paket | Rolle | Abhängigkeiten |
+| Package | Role | Dependencies |
 |---|---|---|
-| [`JOSYN.Foundation.ResultPattern`](josyn-foundation-result-pattern/README.md) | Errors-as-Values — das durchgängige Fehlerbehandlungsprinzip von JOSYN | — |
-| [`JOSYN.Foundation.PropertyBag`](josyn-foundation-property-bag/README.md) | Serialisierung flacher Records für JOSYN-IPC-Kanäle (INI / JSON) | ResultPattern |
-| [`JOSYN.Foundation.JIP`](josyn-foundation-jip/README.md) | Named-Pipe-IPC-Transport (JOSYN Interprocess Protocol) | ResultPattern |
+| [`JOSYN.Foundation.ResultPattern`](josyn-foundation-result-pattern/README.md) | Errors-as-values — JOSYN's consistent error-handling principle | — |
+| [`JOSYN.Foundation.PropertyBag`](josyn-foundation-property-bag/README.md) | Serialization of flat records for JOSYN IPC channels (INI / JSON) | ResultPattern |
+| [`JOSYN.Foundation.JIP`](josyn-foundation-jip/README.md) | Named-pipe IPC transport (JOSYN Interprocess Protocol) | ResultPattern |
 
-### Abhängigkeitskette
+### Dependency chain
 
 ```
 JOSYN.Foundation.ResultPattern
@@ -23,22 +22,21 @@ JOSYN.Foundation.   JOSYN.Foundation.
    PropertyBag           JIP
 ```
 
-`ResultPattern` ist die einzige gemeinsame Abhängigkeit. PropertyBag und JIP kennen
-sich gegenseitig nicht.
+`ResultPattern` is the only shared dependency. `PropertyBag` and `JIP` are unaware of each other.
 
 ---
 
-## Lokales Arbeiten
+## Local development
 
-Jedes Sub-Repo ist autark. Aus dem jeweiligen Verzeichnis:
+Each sub-repo is self-contained. From the respective directory:
 
 ```
-.local-build\build.cmd      # Release-Build
-.local-build\test.cmd       # Tests ausführen
-.local-build\pack.cmd       # NuGet-Paket → ..\..\local-packages\
+.local-build\build.cmd      # release build
+.local-build\test.cmd       # run tests
+.local-build\pack.cmd       # NuGet package → ..\..\local-packages\
 ```
 
-**Reihenfolge beim ersten Setup** (wegen Abhängigkeiten):
+**First-time setup order** (due to dependencies):
 
 ```
 1. josyn-foundation-result-pattern\  → pack
@@ -50,8 +48,9 @@ Jedes Sub-Repo ist autark. Aus dem jeweiligen Verzeichnis:
 
 ## Status
 
-Reifer PoC — Milestone 1. Die Pakete sind intern produktionsreif;
-die `preview`-Kennzeichnung spiegelt den noch offenen Abnahme-Prozess wider.
+Milestone 1. Packages are internally production-ready;
+the `preview` label reflects the pending release process.
+
 ---
 
 *JOSYN Foundation — © 2026 HAEVG AG — MIT License*
