@@ -66,7 +66,15 @@ public sealed class JipDispatcher : IJipDispatcher
             var parameters = m.GetParameters();
 
             // ReSharper disable once ConvertIfStatementToSwitchStatement
-            if (parameters.Length == 0 && m.ReturnType == typeof(Task<Result<string>>))
+            if (parameters.Length == 0 && m.ReturnType == typeof(Task<Result>))
+            {
+                RegisterCore(key, async _ =>
+                {
+                    var r = await (Task<Result>)m.Invoke(impl, null)!;
+                    return r.Succeeded ? Result<string?>.Success(null) : r.ToResult<string?>();
+                });
+            }
+            else if (parameters.Length == 0 && m.ReturnType == typeof(Task<Result<string>>))
             {
                 RegisterCore(key, async _ =>
                 {
