@@ -16,12 +16,6 @@ public interface IServerStartArguments
     Guid SessionKey { get; init; }
 
     /// <summary>
-    /// Optional path to the client executable that the server starts on launch.
-    /// If <see langword="null"/>, the client must have been started independently.
-    /// </summary>
-    string? ClientExePath { get; init; }
-
-    /// <summary>
     /// String request handler (UTF-8). Exactly one of
     /// <see cref="HandleStringRequest"/> or <see cref="HandleRawRequest"/> must be set.
     /// </summary>

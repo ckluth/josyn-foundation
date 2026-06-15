@@ -9,13 +9,33 @@ namespace JOSYN.Foundation.JIP;
 /// <inheritdoc cref="IPipesServer"/>
 public static class PipesServer
 {
+    /// <inheritdoc cref="IPipesServer.StartClientProcess"/>
+    public static Result<int> StartClientProcess(string exePath, Guid sessionKey)
+    {
+        if (!File.Exists(exePath))
+            return Result<int>.Fail($"Client executable not found: {exePath}");
+
+        try
+        {
+            var p = Process.Start(new ProcessStartInfo
+            {
+                FileName        = exePath,
+                Arguments       = PipesProtocol.CreateClientStartCLIArguments(sessionKey.ToString()),
+                UseShellExecute = false,
+                CreateNoWindow  = false
+            });
+
+            if (p == null)
+                return Result<int>.Fail($"Process.Start returned null for: {exePath}");
+
+            return p.Id;
+        }
+        catch (Exception ex) { return ex; }
+    }
+
     /// <inheritdoc cref="IPipesServer.RunAsync"/>
     public static async Task<Result> RunAsync(IServerStartArguments args, bool reConnect = false, Action? onReconnect = null)
     {
-        if (args.ClientExePath != null && reConnect)
-            return Result.Fail("Reconnect wird nicht bei Client-Exe-Aufruf unterstützt.");
-        
-        
         Result<bool> res;
         while (true)
         {
@@ -45,13 +65,6 @@ public static class PipesServer
     {
         if (!args.HasStringRequestHandler && args.HandleRawRequest == null)
             return Result<bool>.Fail("Kein Request-Handler konfiguriert. HandleStringRequest oder HandleRawRequest muss gesetzt sein.");
-
-        if (args.ClientExePath != null)
-        {
-            var startClient = StartClientExe(args.ClientExePath, args.SessionKey.ToString());
-            if (!startClient.Succeeded)
-                return Result<bool>.Propagate(startClient.ToResult<bool>());
-        }
 
         var cancellationHandle = CreatePollingCancellationToken(args.IsCancellationRequested);
 
@@ -170,7 +183,7 @@ public static class PipesServer
         return handle;
     }
 
-    private static Result StartClientExe(string remoteExePath, string sessionKey)
+    private static Result StartClientExe(string remoteExePath, string sessionKey, Action<int>? onStarted = null)
     {
         if (!File.Exists(remoteExePath))
             return Result.Error($"Client-Exe not found: {remoteExePath}");
@@ -185,9 +198,11 @@ public static class PipesServer
                 CreateNoWindow = false
             });
 
-            return (p == null)
-                ? Result.Error($"Failed to start client process: {remoteExePath}")
-                : Result.Success;
+            if (p == null)
+                return Result.Error($"Failed to start client process: {remoteExePath}");
+
+            onStarted?.Invoke(p.Id);
+            return Result.Success;
         }
         catch (Exception ex) { return ex; }
     }

@@ -9,9 +9,6 @@ public sealed record ServerStartArguments: IServerStartArguments
     public Guid SessionKey { get; init; } = Guid.NewGuid();
 
     /// <inheritdoc/>
-    public string? ClientExePath { get; init; }
-
-    /// <inheritdoc/>
     public Func<string, Task<string>>? HandleStringRequest { get; init; }
 
     /// <inheritdoc/>
