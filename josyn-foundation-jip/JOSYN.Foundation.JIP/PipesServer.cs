@@ -1,5 +1,8 @@
 using System.Diagnostics;
 using System.IO.Pipes;
+using System.Runtime.Versioning;
+using System.Security.AccessControl;
+using System.Security.Principal;
 using System.Text;
 using JOSYN.Foundation.ResultPattern;
 
@@ -300,23 +303,38 @@ public static class PipesServer
     {
         try
         {
-            var reqPipe = new NamedPipeServerStream(
-                pipeName: requestPipeName,
-                direction: PipeDirection.In,
-                maxNumberOfServerInstances: 1,
-                transmissionMode: PipeTransmissionMode.Byte,
-                options: PipeOptions.Asynchronous);
-
-            var resPipe = new NamedPipeServerStream(
-                pipeName: responsePipeName,
-                direction: PipeDirection.Out,
-                maxNumberOfServerInstances: 1,
-                transmissionMode: PipeTransmissionMode.Byte,
-                options: PipeOptions.Asynchronous);
+            var reqPipe = CreatePipe(requestPipeName, PipeDirection.In);
+            var resPipe = CreatePipe(responsePipeName, PipeDirection.Out);
 
             return new ServerPipes { RequestPipe = reqPipe, ResponsePipe = resPipe };
         }
         catch (Exception ex) { return ex; }
+
+        // ── helpers ───────────────────────────────────────────────────────
+        // On Windows, grant Everyone ReadWrite so that a job.exe launched under a
+        // different account (impersonation via CreateProcessWithLogonW) can connect.
+        // On other platforms the pipe has no explicit ACL — OS defaults apply.
+        static NamedPipeServerStream CreatePipe(string name, PipeDirection direction)
+        {
+            if (OperatingSystem.IsWindows())
+                return NamedPipeServerStreamAcl.Create(
+                    name, direction, 1, PipeTransmissionMode.Byte, PipeOptions.Asynchronous,
+                    inBufferSize: 0, outBufferSize: 0, CreateEveryoneReadWriteSecurity());
+
+            return new NamedPipeServerStream(
+                name, direction, 1, PipeTransmissionMode.Byte, PipeOptions.Asynchronous);
+        }
+
+        [SupportedOSPlatform("windows")]
+        static PipeSecurity CreateEveryoneReadWriteSecurity()
+        {
+            var security = new PipeSecurity();
+            security.AddAccessRule(new PipeAccessRule(
+                new SecurityIdentifier(WellKnownSidType.WorldSid, null),
+                PipeAccessRights.ReadWrite,
+                AccessControlType.Allow));
+            return security;
+        }
     }
 
 
