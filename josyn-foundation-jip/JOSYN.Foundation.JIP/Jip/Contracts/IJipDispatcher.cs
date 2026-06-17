@@ -56,6 +56,7 @@ public interface IJipDispatcher
     /// Supported signatures:
     /// <list type="bullet">
     /// <item><c>Task&lt;Result&lt;string&gt;&gt; Method()</c></item>
+    /// <item><c>Task&lt;Result&lt;string&gt;&gt; Method(string arg)</c></item>
     /// <item><c>Task&lt;Result&gt; Method(string data)</c></item>
     /// </list>
     /// Returns a failed result if a method with an unsupported signature is encountered.

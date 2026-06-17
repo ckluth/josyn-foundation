@@ -94,6 +94,18 @@ public sealed class JipDispatcher : IJipDispatcher
                     return r.Succeeded ? Result<string?>.Success(null) : r.ToResult<string?>();
                 });
             }
+            else if (parameters.Length == 1
+                     && parameters[0].ParameterType == typeof(string)
+                     && m.ReturnType == typeof(Task<Result<string>>))
+            {
+                RegisterCore(key, async data =>
+                {
+                    if (data is null)
+                        return Result<string?>.Fail($"Funktion '{key}' erwartet Eingabedaten, erhielt aber null.");
+                    var r = await (Task<Result<string>>)m.Invoke(impl, [data])!;
+                    return r.Succeeded ? Result<string?>.Success(r.Value) : r.ToResult<string?>();
+                });
+            }
             else if (parameters.Length == 0
                      && m.ReturnType.IsGenericType
                      && m.ReturnType.GetGenericTypeDefinition() == typeof(Task<>)
@@ -114,7 +126,7 @@ public sealed class JipDispatcher : IJipDispatcher
             {
                 return Result<IJipDispatcher>.Fail(
                     $"Methode '{typeof(TProtocol).Name}.{key}' hat eine nicht unterstützte Signatur für RegisterAll. " +
-                    $"Unterstützt: Task<Result<string>> Method(), Task<Result<TEnum>> Method() (enum), oder Task<Result> Method(string).");
+                    $"Unterstützt: Task<Result<string>> Method(), Task<Result<TEnum>> Method() (enum), Task<Result> Method(string) oder Task<Result<string>> Method(string).");
             }
         }
         return this;

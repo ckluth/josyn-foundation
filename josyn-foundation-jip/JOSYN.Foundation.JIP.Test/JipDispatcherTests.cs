@@ -182,6 +182,43 @@ internal sealed class JipDispatcherTests
     // ── RegisterAll: edge cases ───────────────────────────────────────────────
 
     [Test]
+    public void RegisterAll_StringArgWithStringReturn_IsSupported()
+    {
+        var dispatcher = new JipDispatcher();
+
+        var result = dispatcher.RegisterAll<IQueryProtocol>(new FakeQueryProtocol());
+
+        Assert.That(result.Succeeded, Is.True);
+        Assert.That(dispatcher.RegisteredKeys, Contains.Item("GetFoo"));
+    }
+
+    [Test]
+    public async Task RegisterAll_StringArgWithStringReturn_OnDispatch_ReturnsHandlerResult()
+    {
+        var dispatcher = new JipDispatcher();
+        dispatcher.RegisterAll<IQueryProtocol>(new FakeQueryProtocol());
+
+        var responseJson = await dispatcher.Dispatch(new Request { What = "GetFoo", Data = "bar" }.ToString());
+        var response = JipProtocol.ParseResponse(responseJson);
+
+        Assert.That(response.Value!.Succeeded, Is.True);
+        Assert.That(response.Value.Data, Is.EqualTo("echo:bar"));
+    }
+
+    [Test]
+    public async Task RegisterAll_StringArgWithStringReturn_NullData_ReturnsFailure()
+    {
+        var dispatcher = new JipDispatcher();
+        dispatcher.RegisterAll<IQueryProtocol>(new FakeQueryProtocol());
+
+        var responseJson = await dispatcher.Dispatch(new Request { What = "GetFoo", Data = null }.ToString());
+        var response = JipProtocol.ParseResponse(responseJson);
+
+        Assert.That(response.Value!.Succeeded, Is.False);
+        Assert.That(response.Value.Error, Does.Contain("GetFoo"));
+    }
+
+    [Test]
     public void RegisterAll_EmptyProtocol_RegistersNoKeysAndReturnsSelf()
     {
         var dispatcher = new JipDispatcher();
@@ -208,6 +245,16 @@ internal sealed class JipDispatcherTests
 
     private interface IEmptyProtocol { }
     private sealed class FakeEmptyProtocol : IEmptyProtocol { }
+
+    private interface IQueryProtocol
+    {
+        Task<Result<string>> GetFoo(string arg);
+    }
+
+    private sealed class FakeQueryProtocol : IQueryProtocol
+    {
+        public Task<Result<string>> GetFoo(string arg) => Task.FromResult(Result<string>.Success("echo:" + arg));
+    }
 
     private interface IUnsupportedProtocol
     {
